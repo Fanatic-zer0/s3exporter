@@ -54,10 +54,15 @@ eksctl create iamserviceaccount
 
 ## Full Installation
 
-helm repo add s3-exporter https://Fanatic-zer0.github.io/s3-exporter-helm/
+```bash
+helm repo add s3-exporter https://fanatic-zer0.github.io/s3-exporter-helm/
+
 helm repo update
-helm install s3-exporter s3-exporter/s3-exporter
---namespace monitoring
---set config.bucketConfigs='[{"bucket":"^prod-.*","prefix":"logs/"}]'
---set image.repository=your-registry/s3-exporter:latest
+
+helm install s3-exporter s3-exporter/s3-exporter \
+  --namespace monitoring \
+  --create-namespace \
+  --set config.bucketConfigs='[{"bucket":"^prod-.*","prefix":"logs/"}]' \
+  --set image.repository=ghcr.io/fanatic-zer0/s3exporter:latest
+```
 
