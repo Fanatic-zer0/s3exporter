@@ -1,0 +1,6 @@
+apiVersion: v2
+name: s3-exporter
+description: AWS S3 Prometheus Exporter for Kubernetes
+version: 1.0.0
+appVersion: "1.0"
+icon: https://raw.githubusercontent.com/aws-samples/aws-prometheus-exporter/master/assets/aws-logo.svg

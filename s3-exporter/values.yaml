@@ -1,0 +1,53 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/Fanatic-zer0/s3-exporter
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 9340
+
+resources:
+  requests:
+    cpu: "50m"
+    memory: "256Mi"
+  limits:
+    cpu: "100m"
+    memory: "512Mi"
+
+aws:
+  region: "us-east-1"
+
+exporter:
+  port: 9340
+  checkInterval: 7200
+  bucketConfigs:
+    - bucket: "bucketname-*"
+      prefix: "path/to/objects/"
+    - bucket: "another-bucket"
+      prefix: "path/2/objects/"
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 3
+
+livenessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 3
+  failureThreshold: 5
+
+servicemonitor:
+  enabled: true
+  interval: 60s
+  timeout: 10s
+
+serviceAccount:
+  create: true
+  name: "s3-exporter-sa"
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+  automount: true
