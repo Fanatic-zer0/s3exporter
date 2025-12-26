@@ -3,12 +3,12 @@ entries:
   s3-exporter:
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-12-26T15:30:54.19918231Z"
+    created: "2025-12-26T15:35:00.568115969Z"
     description: AWS S3 Prometheus Exporter for Kubernetes
-    digest: ecb56a2d226e9bedec7a090011cef9058ecfcff83d636a8f6a7c8f98fd163f47
+    digest: 957afe032169720d1f2b4c8664181212721efd7e84f1105d5a2397acf6a0afb1
     icon: https://raw.githubusercontent.com/aws-samples/aws-prometheus-exporter/master/assets/aws-logo.svg
     name: s3-exporter
     urls:
     - https://fanatic-zer0.github.io/s3exporter/s3-exporter-1.0.0.tgz
     version: 1.0.0
-generated: "2025-12-26T15:30:54.198694859Z"
+generated: "2025-12-26T15:35:00.567640857Z"
