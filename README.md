@@ -54,7 +54,7 @@ eksctl create iamserviceaccount
 
 ## Full Installation
 
-helm repo add s3-exporter https://yourusername.github.io/s3-exporter-helm/
+helm repo add s3-exporter https://Fanatic-zer0.github.io/s3-exporter-helm/
 helm repo update
 helm install s3-exporter s3-exporter/s3-exporter
 --namespace monitoring
