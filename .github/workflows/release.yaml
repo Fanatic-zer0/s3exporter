@@ -24,12 +24,6 @@ jobs:
     - name: Set up Helm
       uses: azure/setup-helm@v4.2.0
 
-    - name: Set up Chart-testing
-      uses: helm/chart-testing@v2.7.0
-      
-    - name: Run chart-testing (lint)
-      run: ct lint --target-branch ${{ github.event.repository.default_branch }}
-
     - name: Lint Helm Chart
       run: ct lint --config ct.yaml charts/s3-exporter/
 
