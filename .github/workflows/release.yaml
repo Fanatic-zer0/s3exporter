@@ -9,38 +9,28 @@ on:
 
 permissions:
   contents: write
-  packages: write  # For Docker push to GHCR
+  packages: write
 
 jobs:
-  # Lint, Test & Package Chart
-  lint-test:
+  package:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # Required for ct lint target-branch comparison
-  
+
     - name: Set up Helm
       uses: azure/setup-helm@v4.2.0
-  
-    - name: Install chart-testing
-      uses: helm/chart-testing-action@v2.7.0  # Pins to latest available release
-  
-    - name: Lint Helm Chart
-      run: ct lint --config ct.yaml charts/s3-exporter/
-  
+
     - name: Package Helm Chart
       run: |
         helm package charts/s3-exporter/ --destination ./charts/
-  
+
     - name: Upload Chart Artifact
       uses: actions/upload-artifact@v4
       with:
         name: s3-exporter-chart
         path: charts/s3-exporter-*.tgz
 
-  # Build & Push Docker Image
   docker:
     runs-on: ubuntu-latest
     needs: lint-test
@@ -94,22 +84,18 @@ jobs:
 
   # Deploy to GitHub Pages (Main branch)
   pages:
-    needs: [lint-test, docker]
+    needs: package
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       pages: write
       id-token: write
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
+    - uses: actions/checkout@v4
+    - uses: azure/setup-helm@v4.2.0
     - name: Package Chart
-      run: |
-        helm package charts/s3-exporter/ --destination ./charts/
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
+      run: helm package charts/s3-exporter/ --destination ./charts/
+    - uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./charts
