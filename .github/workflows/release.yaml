@@ -104,6 +104,9 @@ jobs:
     - name: Package Chart
       run: helm package charts/s3-exporter/ --destination ./charts/
   
+    - name: Generate Helm Repository Index
+      run: helm repo index charts/ --url https://fanatic-zer0.github.io/s3exporter/
+  
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
