@@ -91,14 +91,21 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
+      contents: write
       pages: write
       id-token: write
     steps:
-    - uses: actions/checkout@v4
-    - uses: azure/setup-helm@v4.2.0
+    - name: Checkout
+      uses: actions/checkout@v4
+  
+    - name: Set up Helm
+      uses: azure/setup-helm@v4.2.0
+  
     - name: Package Chart
       run: helm package charts/s3-exporter/ --destination ./charts/
-    - uses: peaceiris/actions-gh-pages@v4
+  
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./charts
